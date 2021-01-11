@@ -21,7 +21,8 @@ variable "vnet_address_space" {
   default = ["10.0.0.0/16","fd00:db8:deca::/48"]
 }
 
-variable "IPv6-AZ1-Subnet" {
-  description = "The subnet to be used in AZ1"
-  default = ["10.0.0.0/24","fd00:db8:deca::/64"]
+variable "IPv6-Subnet" {
+  description = "The subnet to be used"
+  default = ["10.0.1.0/24","fd00:db8:deca:daed::/64"]
 }
+
