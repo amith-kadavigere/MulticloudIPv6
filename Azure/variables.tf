@@ -15,12 +15,13 @@ variable "location" {
   default     = "eastus2"
 }
 
-#Network Variables
+#Overall IPv4 and IPv6 Space for the VNET
 variable "vnet_address_space" {
   description = "The address space of the VNET"
   default = ["10.0.0.0/16","fd00:db8:deca::/48"]
 }
 
+#IPv4 and ipV6 Space allocated for Subnet 
 variable "IPv6-Subnet" {
   description = "The subnet to be used"
   default = ["10.0.1.0/24","fd00:db8:deca:daed::/64"]
