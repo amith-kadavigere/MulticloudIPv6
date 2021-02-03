@@ -107,7 +107,7 @@ resource "azurerm_lb_backend_address_pool" "IPv6_Backend_Pool" {
     name                = "IPv6_Backend_Pool"
 }
 
-#Create the Health Probe, this will work for both IPv6 and IPv6. For better metrics create a seperate one for IPv4 and IPv6. 
+#Create the Health Probe, this will work for both IPv4 and IPv6. For better metrics create a seperate one for IPv4 and IPv6. 
 resource "azurerm_lb_probe" "IPv6_Probe" {
     resource_group_name = azurerm_resource_group.IPv6.name
     loadbalancer_id     = azurerm_lb.IPv6lb.id
