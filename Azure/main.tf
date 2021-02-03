@@ -1,6 +1,6 @@
 /*
 IPv6 Infrastructure Terraform Deployment for Azure 
-Terraform version ~> 2.39
+Terraform version ~> v0.14
 */
 
 # Configure the Azure Provider for the IPv6 Subscription
@@ -140,7 +140,7 @@ resource "azurerm_lb_rule" "IPv6_rule_port80v6" {
   probe_id                       = azurerm_lb_probe.IPv6_Probe.id
 }
 
-#Create a zone balances scale set. 
+#Create a zone balancing scale set. 
 resource "azurerm_linux_virtual_machine_scale_set" "IPv6_Scaleset" {
     name                = "IPv6Node"
     resource_group_name = azurerm_resource_group.IPv6.name

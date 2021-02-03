@@ -1,2 +1,8 @@
 
 Azure/input.var
+.vscode/settings.json
+AWS/.terraform/plugins/windows_amd64/lock.json
+AWS/.terraform/plugins/windows_amd64/terraform-provider-aws_v3.25.0_x5.exe
+AWS/.terraform/plugins/windows_amd64/terraform-provider-template_v2.2.0_x4.exe
+AWS/terraform.tfstate.backup
+AWS/terraform.tfstate
