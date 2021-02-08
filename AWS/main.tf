@@ -238,10 +238,10 @@ resource "aws_route_table_association" "ipv6_ra_private_3" {
 }
 
 #IPv4 and IPv6 Security Group for Auto Scale Group
-#Allow HTTP Traffic in 
-resource "aws_security_group" "ipv6_allow_http_sg" {
-  name        = "ipv6_allow_http_sg"
-  description = "Allow HTTP inbound connections"
+#Allow Traffic in from Public Subnet and all traffic out 
+resource "aws_security_group" "ipv6_allow_sg" {
+  name        = "ipv6_allow_sg"
+  description = "Allow connections from public subnet"
   vpc_id = aws_vpc.ipv6_vpc.id
 
   #Allow HTTP Traffic from anywhere for IPv4
@@ -252,28 +252,12 @@ resource "aws_security_group" "ipv6_allow_http_sg" {
     cidr_blocks     = ["0.0.0.0/0"]
   }
 
-  #Allow HTTP Traffic from anywhere for IPv6
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    ipv6_cidr_blocks      = ["::/0"]
-  }
-
   #Allow All Traffic from the VPC CIDR for IPv4
   ingress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks     = [var.cidr]
-  }
-
-  #Allow All Traffic from the VPC CIDR for IPv6
-  ingress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    ipv6_cidr_blocks     = [aws_vpc.ipv6_vpc.ipv6_cidr_block]
   }
 
   #Allow all traffic out 
@@ -343,7 +327,7 @@ resource "aws_launch_configuration" "ipv6_lc" {
   instance_type = var.ipv6_instance_type
   key_name = var.key_name
 
-  security_groups = [ aws_security_group.ipv6_allow_http_sg.id ]
+  security_groups = [ aws_security_group.ipv6_allow_sg.id ]
 
   user_data = data.template_file.ipv6_user_data.rendered
 }
