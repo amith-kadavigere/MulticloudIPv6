@@ -12,6 +12,7 @@ provider "aws" {
 resource "aws_vpc" "ipv6_vpc" {
   cidr_block       = var.cidr
   enable_dns_hostnames = true
+  enable_dns_support   = true
   assign_generated_ipv6_cidr_block = true
 
   tags = {
@@ -35,33 +36,33 @@ resource "aws_subnet" "public_ipv6_subnet_1" {
   }
 }
 
-resource "aws_subnet" "public_ipv6_subnet_2" {
-  vpc_id     = aws_vpc.ipv6_vpc.id
-  cidr_block = var.pubsubnet2
-  availability_zone = var.az2
+# resource "aws_subnet" "public_ipv6_subnet_2" {
+#   vpc_id     = aws_vpc.ipv6_vpc.id
+#   cidr_block = var.pubsubnet2
+#   availability_zone = var.az2
 
-  ipv6_cidr_block = cidrsubnet(aws_vpc.ipv6_vpc.ipv6_cidr_block, 8, 2)
-  assign_ipv6_address_on_creation = false
-  map_public_ip_on_launch = false
+#   ipv6_cidr_block = cidrsubnet(aws_vpc.ipv6_vpc.ipv6_cidr_block, 8, 2)
+#   assign_ipv6_address_on_creation = false
+#   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "public_ipv6_subnet_2"
-  }
-}
+#   tags = {
+#     Name = "public_ipv6_subnet_2"
+#   }
+# }
 
-resource "aws_subnet" "public_ipv6_subnet_3" {
-  vpc_id     = aws_vpc.ipv6_vpc.id
-  cidr_block = var.pubsubnet3
-  availability_zone = var.az3
+# resource "aws_subnet" "public_ipv6_subnet_3" {
+#   vpc_id     = aws_vpc.ipv6_vpc.id
+#   cidr_block = var.pubsubnet3
+#   availability_zone = var.az3
 
-  ipv6_cidr_block = cidrsubnet(aws_vpc.ipv6_vpc.ipv6_cidr_block, 8, 3)
-  assign_ipv6_address_on_creation = false
-  map_public_ip_on_launch = false
+#   ipv6_cidr_block = cidrsubnet(aws_vpc.ipv6_vpc.ipv6_cidr_block, 8, 3)
+#   assign_ipv6_address_on_creation = false
+#   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "public_ipv6_subnet_3"
-  }
-}
+#   tags = {
+#     Name = "public_ipv6_subnet_3"
+#   }
+# }
 
 #Create 3 Private Subnets in each AZ 
 resource "aws_subnet" "private_ipv6_subnet_1" {
@@ -76,29 +77,29 @@ resource "aws_subnet" "private_ipv6_subnet_1" {
   }
 }
 
-resource "aws_subnet" "private_ipv6_subnet_2" {
-  vpc_id     = aws_vpc.ipv6_vpc.id
-  cidr_block = var.privsubnet2
-  availability_zone = var.az2
+# resource "aws_subnet" "private_ipv6_subnet_2" {
+#   vpc_id     = aws_vpc.ipv6_vpc.id
+#   cidr_block = var.privsubnet2
+#   availability_zone = var.az2
 
-  map_public_ip_on_launch = false
+#   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "private_ipv6_subnet_2"
-  }
-}
+#   tags = {
+#     Name = "private_ipv6_subnet_2"
+#   }
+# }
 
-resource "aws_subnet" "private_ipv6_subnet_3" {
-  vpc_id     = aws_vpc.ipv6_vpc.id
-  cidr_block = var.privsubnet3
-  availability_zone = var.az3
+# resource "aws_subnet" "private_ipv6_subnet_3" {
+#   vpc_id     = aws_vpc.ipv6_vpc.id
+#   cidr_block = var.privsubnet3
+#   availability_zone = var.az3
 
-  map_public_ip_on_launch = false
+#   map_public_ip_on_launch = false
 
-  tags = {
-    Name = "private_ipv6_subnet_3"
-  }
-}
+#   tags = {
+#     Name = "private_ipv6_subnet_3"
+#   }
+# }
 
 #Create the Internet Gateway 
 resource "aws_internet_gateway" "ipv6_vpc_igw" {
@@ -136,17 +137,17 @@ resource "aws_route_table_association" "ipv6_ra_public_1" {
     route_table_id = aws_route_table.ipv6_public_rt.id
 }
 
-#Associate the route with Public Subnet 2
-resource "aws_route_table_association" "ipv6_ra_public_2" {
-    subnet_id = aws_subnet.public_ipv6_subnet_2.id
-    route_table_id = aws_route_table.ipv6_public_rt.id
-}
+# #Associate the route with Public Subnet 2
+# resource "aws_route_table_association" "ipv6_ra_public_2" {
+#     subnet_id = aws_subnet.public_ipv6_subnet_2.id
+#     route_table_id = aws_route_table.ipv6_public_rt.id
+# }
 
-#Associate the route with Public Subnet 3
-resource "aws_route_table_association" "ipv6_ra_public_3" {
-    subnet_id = aws_subnet.public_ipv6_subnet_3.id
-    route_table_id = aws_route_table.ipv6_public_rt.id
-}
+# #Associate the route with Public Subnet 3
+# resource "aws_route_table_association" "ipv6_ra_public_3" {
+#     subnet_id = aws_subnet.public_ipv6_subnet_3.id
+#     route_table_id = aws_route_table.ipv6_public_rt.id
+# }
 
 #Create 3 NAT Gateways for the Private Subnet instaces
 #Create EIP for each Gateway
@@ -154,13 +155,13 @@ resource "aws_eip" "nat_gateway_1" {
   vpc = true
 }
 
-resource "aws_eip" "nat_gateway_2" {
-  vpc = true
-}
+# resource "aws_eip" "nat_gateway_2" {
+#   vpc = true
+# }
 
-resource "aws_eip" "nat_gateway_3" {
-  vpc = true
-}
+# resource "aws_eip" "nat_gateway_3" {
+#   vpc = true
+# }
 
 #Create the 3 Gateways and place them in each public subnet
 resource "aws_nat_gateway" "ipv6_nat_gateway_1" {
@@ -171,21 +172,21 @@ resource "aws_nat_gateway" "ipv6_nat_gateway_1" {
   }
 }
 
-resource "aws_nat_gateway" "ipv6_nat_gateway_2" {
-  allocation_id = aws_eip.nat_gateway_2.id
-  subnet_id = aws_subnet.public_ipv6_subnet_2.id
-  tags = {
-    "Name" = "ipv6_nat_gateway_2"
-  }
-}
+# resource "aws_nat_gateway" "ipv6_nat_gateway_2" {
+#   allocation_id = aws_eip.nat_gateway_2.id
+#   subnet_id = aws_subnet.public_ipv6_subnet_2.id
+#   tags = {
+#     "Name" = "ipv6_nat_gateway_2"
+#   }
+# }
 
-resource "aws_nat_gateway" "ipv6_nat_gateway_3" {
-  allocation_id = aws_eip.nat_gateway_3.id
-  subnet_id = aws_subnet.public_ipv6_subnet_3.id
-  tags = {
-    "Name" = "ipv6_nat_gateway_3"
-  }
-}
+# resource "aws_nat_gateway" "ipv6_nat_gateway_3" {
+#   allocation_id = aws_eip.nat_gateway_3.id
+#   subnet_id = aws_subnet.public_ipv6_subnet_3.id
+#   tags = {
+#     "Name" = "ipv6_nat_gateway_3"
+#   }
+# }
 
 #Create a route table for the 3 private subnets and make the defauly route the nat gateway 
 resource "aws_route_table" "ipv6_private_rt_1" {
@@ -199,27 +200,27 @@ resource "aws_route_table" "ipv6_private_rt_1" {
   }
 }
 
-resource "aws_route_table" "ipv6_private_rt_2" {
-  vpc_id = aws_vpc.ipv6_vpc.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.ipv6_nat_gateway_2.id
-  }
-    tags = {
-        Name = "ipv6_private_rt_2"
-    }
-}
+# resource "aws_route_table" "ipv6_private_rt_2" {
+#   vpc_id = aws_vpc.ipv6_vpc.id
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     nat_gateway_id = aws_nat_gateway.ipv6_nat_gateway_2.id
+#   }
+#     tags = {
+#         Name = "ipv6_private_rt_2"
+#     }
+# }
 
-resource "aws_route_table" "ipv6_private_rt_3" {
-  vpc_id = aws_vpc.ipv6_vpc.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.ipv6_nat_gateway_3.id
-  }
-    tags = {
-        Name = "ipv6_private_rt_3"
-    }
-}
+# resource "aws_route_table" "ipv6_private_rt_3" {
+#   vpc_id = aws_vpc.ipv6_vpc.id
+#   route {
+#     cidr_block = "0.0.0.0/0"
+#     nat_gateway_id = aws_nat_gateway.ipv6_nat_gateway_3.id
+#   }
+#     tags = {
+#         Name = "ipv6_private_rt_3"
+#     }
+# }
 
 #Associate the route table to each private subnet 
 resource "aws_route_table_association" "ipv6_ra_private_1" {
@@ -227,15 +228,15 @@ resource "aws_route_table_association" "ipv6_ra_private_1" {
   route_table_id = aws_route_table.ipv6_private_rt_1.id
 }
 
-resource "aws_route_table_association" "ipv6_ra_private_2" {
-  subnet_id = aws_subnet.private_ipv6_subnet_2.id
-  route_table_id = aws_route_table.ipv6_private_rt_2.id
-}
+# resource "aws_route_table_association" "ipv6_ra_private_2" {
+#   subnet_id = aws_subnet.private_ipv6_subnet_2.id
+#   route_table_id = aws_route_table.ipv6_private_rt_2.id
+# }
 
-resource "aws_route_table_association" "ipv6_ra_private_3" {
-  subnet_id = aws_subnet.private_ipv6_subnet_3.id
-  route_table_id = aws_route_table.ipv6_private_rt_3.id
-}
+# resource "aws_route_table_association" "ipv6_ra_private_3" {
+#   subnet_id = aws_subnet.private_ipv6_subnet_3.id
+#   route_table_id = aws_route_table.ipv6_private_rt_3.id
+# }
 
 #IPv4 and IPv6 Security Group for Auto Scale Group
 #Allow Traffic in from Public Subnet and all traffic out 
@@ -336,9 +337,9 @@ resource "aws_launch_configuration" "ipv6_lc" {
 resource "aws_autoscaling_group" "ipv6_asg" {
   name = "ipv6-asg"
 
-  min_size             = 3
-  desired_capacity     = 3
-  max_size             = 6
+  min_size             = 1
+  desired_capacity     = 2
+  max_size             = 3
   
   health_check_type = "EC2"
 
@@ -358,9 +359,9 @@ resource "aws_autoscaling_group" "ipv6_asg" {
   metrics_granularity = "1Minute"
 
   vpc_zone_identifier  = [
-    aws_subnet.private_ipv6_subnet_1.id,
-    aws_subnet.private_ipv6_subnet_2.id,
-    aws_subnet.private_ipv6_subnet_3.id
+    aws_subnet.private_ipv6_subnet_1.id
+    # aws_subnet.private_ipv6_subnet_2.id,
+    # aws_subnet.private_ipv6_subnet_3.id
   ]
 
   #Required to redeploy without an outage.
